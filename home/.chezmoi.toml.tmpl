@@ -1,0 +1,10 @@
+{{- $name := promptStringOnce . "name" "Full name (git)" -}}
+{{- $email := promptStringOnce . "email" "Email (git)" -}}
+{{- $ios := promptBoolOnce . "ios" "Install the iOS profile (xcodes, Tuist)" false -}}
+
+sourceDir = {{ joinPath .chezmoi.homeDir "Developer/dotenv" | quote }}
+
+[data]
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}
+    ios = {{ $ios }}

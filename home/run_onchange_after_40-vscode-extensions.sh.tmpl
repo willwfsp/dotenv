@@ -1,0 +1,10 @@
+#!/bin/bash
+# Re-runs whenever .chezmoidata/vscode.yaml changes. Already-installed extensions are skipped.
+set -euo pipefail
+
+code="/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code"
+[ -x "$code" ] || { echo "VS Code not installed yet, skipping extensions"; exit 0; }
+
+{{ range .vscode.extensions -}}
+"$code" --install-extension {{ . | quote }}
+{{ end -}}

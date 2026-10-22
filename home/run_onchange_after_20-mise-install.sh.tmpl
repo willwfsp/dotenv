@@ -1,0 +1,8 @@
+#!/bin/bash
+# Re-runs whenever the global mise config changes.
+# config hash: {{ include "dot_config/mise/config.toml.tmpl" | sha256sum }} ios={{ .ios }}
+set -euo pipefail
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+cd "$HOME"
+mise install --yes

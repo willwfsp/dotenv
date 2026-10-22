@@ -1,0 +1,11 @@
+# gh CLI preferences. Auth tokens live in hosts.yml / Keychain and are never committed.
+version: 1
+git_protocol: https
+editor:
+prompt: enabled
+prefer_editor_prompt: disabled
+pager:
+aliases:
+    co: pr checkout
+http_unix_socket:
+browser:

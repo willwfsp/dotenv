@@ -1,0 +1,12 @@
+# Global tool versions. Projects override these with their own mise.toml.
+[tools]
+node = "lts"
+python = "latest"
+uv = "latest"
+{{- if .ios }}
+tuist = "latest"
+{{- end }}
+
+[settings]
+# Let `uv` reuse mise-managed Python instead of downloading its own.
+python.uv_venv_auto = true

@@ -1,0 +1,32 @@
+# Interactive shells only.
+
+# --- History -----------------------------------------------------------------
+HISTFILE="$XDG_STATE_HOME/zsh/history"
+[[ -d ${HISTFILE:h} ]] || mkdir -p ${HISTFILE:h}
+HISTSIZE=100000
+SAVEHIST=100000
+setopt extended_history hist_expire_dups_first hist_ignore_dups hist_ignore_space \
+       hist_reduce_blanks hist_verify inc_append_history share_history
+
+# --- Options -----------------------------------------------------------------
+setopt auto_cd auto_pushd pushd_ignore_dups interactive_comments no_beep
+
+# --- Functions ---------------------------------------------------------------
+# One function per file in functions/, loaded lazily on first call.
+fpath=("$ZDOTDIR/functions" $fpath)
+autoload -Uz $ZDOTDIR/functions/*(.N:t)
+
+# --- Plugins (antidote) ------------------------------------------------------
+# Plugin list lives in .zsh_plugins.txt; antidote compiles it to a static file.
+zstyle ':antidote:bundle' use-friendly-names 'yes'
+source /opt/homebrew/opt/antidote/share/antidote/antidote.zsh
+antidote load
+
+# --- Tools -------------------------------------------------------------------
+source <(fzf --zsh)
+eval "$(mise activate zsh)"
+eval "$(starship init zsh)"
+
+# --- Extras ------------------------------------------------------------------
+for f in $ZDOTDIR/conf.d/*.zsh(N); do source $f; done
+unset f

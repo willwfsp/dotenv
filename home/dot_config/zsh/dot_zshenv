@@ -1,0 +1,13 @@
+# Read by every zsh: interactive, scripts and AI agents. Keep it fast and silent.
+
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_STATE_HOME="$HOME/.local/state"
+
+export EDITOR="code --wait"
+export VISUAL="$EDITOR"
+
+# Login shells set PATH in .zprofile instead, because /etc/zprofile's path_helper
+# would reorder anything set here.
+[[ -o login ]] || source "$ZDOTDIR/lib/path.zsh"

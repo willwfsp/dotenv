@@ -1,0 +1,42 @@
+#!/bin/bash
+# Global hook (core.hooksPath). Prefixes the commit message with the ticket from the branch name
+# (feature/ABC-123-login -> "ABC-123: <message>"), and blocks commits on other branches without a ticket.
+#
+# Skipped on: main master develop staging (override: BRANCHES_TO_SKIP="main release"), detached HEAD,
+# merges and squashes. One-off bypass: SKIP_TICKET=1 git commit ... (--no-verify does not skip this hook).
+set -euo pipefail
+
+msg_file=$1
+source=${2:-}
+
+# core.hooksPath disables the repo's own .git/hooks, so chain to it when it exists.
+run_repo_hook() {
+  local hook
+  hook="$(git rev-parse --git-common-dir)/hooks/prepare-commit-msg"
+  if [ -x "$hook" ]; then exec "$hook" "$@"; fi
+  exit 0
+}
+
+ticket_regex='[A-Z][A-Z0-9]+-[0-9]+'
+branch=$(git branch --show-current)
+skip=" ${BRANCHES_TO_SKIP:-main master develop staging} "
+
+if [ -n "${SKIP_TICKET:-}" ] || [ -z "$branch" ] || [[ $skip == *" $branch "* ]] \
+   || [ "$source" = merge ] || [ "$source" = squash ]; then
+  run_repo_hook "$@"
+fi
+
+# Message already starts with a ticket: leave it alone.
+if head -1 "$msg_file" | grep -qE "^$ticket_regex"; then
+  run_repo_hook "$@"
+fi
+
+ticket=$(grep -oE "$ticket_regex" <<<"$branch" | head -1 || true)
+if [ -z "$ticket" ]; then
+  echo "prepare-commit-msg: branch '$branch' has no ticket (e.g. feature/ABC-123-thing)." >&2
+  echo "Rename the branch, start the message with a ticket, or bypass with SKIP_TICKET=1." >&2
+  exit 1
+fi
+
+sed -i '' "1s/^/$ticket: /" "$msg_file"
+run_repo_hook "$@"

@@ -1,0 +1,10 @@
+# Global gitignore (git reads ~/.config/git/ignore automatically)
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+*.swp
+.idea/
+.vscode/*.log
+.env.local
+.claude/settings.local.json

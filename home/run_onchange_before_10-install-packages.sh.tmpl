@@ -1,0 +1,19 @@
+#!/bin/bash
+# Re-runs whenever .chezmoidata/packages.yaml or the ios flag changes.
+set -euo pipefail
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+brew bundle --file=/dev/stdin <<EOF
+{{ range .packages.base.brews -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ range .packages.base.casks -}}
+cask {{ . | quote }}
+{{ end -}}
+{{ if .ios -}}
+{{ range .packages.ios.brews -}}
+brew {{ . | quote }}
+{{ end -}}
+{{ end -}}
+EOF

@@ -1,0 +1,28 @@
+{
+    "workbench.colorTheme": "Min Dark",
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.editor.labelFormat": "short",
+    "workbench.editor.enablePreview": false,
+    "workbench.activityBar.location": "top",
+    "workbench.layoutControl.enabled": false,
+    "window.commandCenter": false,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.fontSize": 14,
+    "editor.lineHeight": 1.6,
+    "editor.rulers": [
+        120
+    ],
+    "editor.formatOnSave": true,
+    "editor.minimap.enabled": false,
+    "editor.semanticHighlighting.enabled": false,
+    "editor.wordWrap": "on",
+    "explorer.compactFolders": false,
+    "files.autoSave": "afterDelay",
+    "files.insertFinalNewline": true,
+    "zenMode.showTabs": "single",
+    "github.copilot.editor.enableAutoCompletions": true,
+    "[yaml]": {
+        "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
+    }
+}

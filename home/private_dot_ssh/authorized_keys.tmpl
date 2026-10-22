@@ -1,0 +1,4 @@
+{{- /* Rendered empty while the list is empty, so chezmoi doesn't create the file. */ -}}
+{{ range .ssh.authorized_keys -}}
+{{ . }}
+{{ end -}}

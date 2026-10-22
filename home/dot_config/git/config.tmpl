@@ -1,0 +1,35 @@
+[user]
+	name = {{ .name }}
+	email = {{ .email }}
+[core]
+	# Global hooks; they chain to each repo's own .git/hooks.
+	hooksPath = ~/.config/git/hooks
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[fetch]
+	prune = true
+[rebase]
+	autoStash = true
+	updateRefs = true
+[diff]
+	algorithm = histogram
+	colorMoved = default
+[merge]
+	conflictStyle = zdiff3
+[rerere]
+	enabled = true
+[branch]
+	sort = -committerdate
+[help]
+	autocorrect = prompt
+# GitHub over HTTPS, authenticated by gh (what `gh auth setup-git` would write).
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential

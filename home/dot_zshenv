@@ -1,0 +1,4 @@
+# Bootstrap: keep zsh config out of $HOME. zsh only reads ~/.zshenv on its own,
+# so hand off to the real one under ZDOTDIR.
+export ZDOTDIR="$HOME/.config/zsh"
+[[ -f "$ZDOTDIR/.zshenv" ]] && source "$ZDOTDIR/.zshenv"

@@ -1,0 +1,34 @@
+# Single source of truth for Homebrew packages.
+# Editing this file makes `chezmoi apply` re-run brew bundle.
+packages:
+  base:
+    brews:
+      - antidote
+      - chezmoi
+      - fzf
+      - gh
+      - git
+      - jq
+      - mise
+      - ripgrep
+      - starship
+    casks:
+      - 1password
+      - claude-code
+      - font-fira-code
+      - fork
+      - google-chrome
+      - grammarly-desktop
+      - maccy
+      - orbstack # Docker engine + docker/orb CLIs
+      - proxyman
+      - sf-symbols
+      - telegram
+      - utm # full VMs (Home Assistant OS); CLI: utmctl
+      - visual-studio-code
+      - warp
+  # Enabled by answering yes to the "ios" prompt (or `make ios`).
+  ios:
+    brews:
+      - aria2 # xcodes uses it for faster downloads
+      - xcodes

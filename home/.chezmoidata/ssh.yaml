@@ -1,0 +1,5 @@
+# Public keys allowed to SSH into this Mac (written to ~/.ssh/authorized_keys).
+# Paste the public key from 1Password on the device you connect from. Leave out the trailing
+# comment (often an email address): just "ssh-ed25519 AAAA...".
+ssh:
+  authorized_keys: []

@@ -1,0 +1,2 @@
+# Login shells (new terminal windows). Runs after /etc/zprofile, so PATH set here wins.
+source "$ZDOTDIR/lib/path.zsh"
