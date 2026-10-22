@@ -34,7 +34,8 @@ mkdir -p "$(dirname "$target_dir")"
 chezmoi init --apply --source "$target_dir"
 
 step "GitHub"
-gh auth status >/dev/null 2>&1 || gh auth login --hostname github.com --git-protocol https --web
+# --active: a stale second account shouldn't count as "not logged in".
+gh auth status --active --hostname github.com >/dev/null 2>&1 || gh auth login --hostname github.com --git-protocol https --web
 
 step "Done"
 echo "Open a new terminal. For Xcode run: make -C \"$target_dir\" xcode"
