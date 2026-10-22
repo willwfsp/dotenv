@@ -47,8 +47,13 @@ gh repo clone willwfsp/dotenv ~/Developer/dotenv && make -C ~/Developer/dotenv i
 
 ## Day to day
 
+Run `make` for the interactive menu: a status panel (repo, pending dotfile changes, outdated packages,
+mise tools) plus every action below. It uses [gum](https://github.com/charmbracelet/gum) when installed,
+and prints the plain target list when there's no terminal (scripts, AI agents).
+
 | Command | What it does |
 |---|---|
+| `make` | Interactive menu |
 | `make diff` | Preview changes before applying |
 | `make apply` | Apply the repo to `$HOME` |
 | `chezmoi edit ~/.config/zsh/.zshrc` | Edit a managed file (source and target) |

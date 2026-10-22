@@ -1,5 +1,8 @@
-.DEFAULT_GOAL := help
-.PHONY: help install apply diff update ios xcode remote-access doctor
+.DEFAULT_GOAL := menu
+.PHONY: menu help install apply diff update ios xcode remote-access doctor
+
+menu: ## Interactive menu (plain target list when there's no terminal)
+	@./scripts/menu.sh
 
 help: ## Show available targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'

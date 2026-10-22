@@ -8,6 +8,7 @@ packages:
       - fzf
       - gh
       - git
+      - gum # TUI for `make`
       - jq
       - mise
       - ripgrep
