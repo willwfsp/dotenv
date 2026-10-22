@@ -4,7 +4,9 @@ set -euo pipefail
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-brew bundle --file=/dev/stdin <<EOF
+# A failed package (e.g. an app already in /Applications that Homebrew didn't install) shouldn't
+# stop the dotfiles from being applied. Fix it and re-run `make apply`.
+brew bundle --file=/dev/stdin <<EOF || echo "WARNING: some packages failed to install, see above." >&2
 {{ range .packages.base.brews -}}
 brew {{ . | quote }}
 {{ end -}}
