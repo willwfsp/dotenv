@@ -11,29 +11,27 @@ and `make` opens an interactive menu to manage it afterwards.
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/willwfsp/dotenv/main/install.sh)"
 ```
 
-Use `bash -c "$(curl ...)"`, not `curl ... | bash`: the script prompts for things (Homebrew's sudo password,
-chezmoi questions), and a pipe would swallow your keyboard input.
+Use `bash -c "$(curl ...)"`, not `curl ... | bash`: the menu and Homebrew need your keyboard, and a pipe
+would swallow it.
 
-`install.sh` installs the Command Line Tools and Homebrew, clones this repo to `~/Developer/dotenv` and
-installs chezmoi. Then it runs `chezmoi init --apply`, which:
+`install.sh` does only enough to run the menu: it installs the Command Line Tools, Homebrew, chezmoi, gum
+and fzf, clones this repo to `~/Developer/dotenv` and opens `make`. On a fresh Mac the menu offers
+**Set up this Mac** (`make setup`), which:
 
 1. asks for your name, email and whether to enable the iOS profile
 2. installs the Homebrew packages (`home/.chezmoidata/packages.yaml`)
 3. writes the dotfiles into `$HOME`
 4. installs mise tools, applies macOS defaults and installs VS Code extensions
+5. logs you into GitHub with `gh` (browser). Git uses HTTPS with gh's credentials, so this Mac needs no SSH
+   key for GitHub, at the desk or over a remote session.
 
-Finally it logs you into GitHub with `gh` (browser). Git uses HTTPS with gh's credentials, so this Mac
-needs no SSH key for GitHub, at the desk or over a remote session.
-
-Then, optionally:
-
-- **Xcode** (iOS profile only): `make xcode` to pick and install a version.
-- **Remote access:** see below.
+After that the menu shows everything else, including **Install Xcode** (iOS profile) and
+**Set up remote access** (see below).
 
 The repo always lives in `~/Developer/dotenv`. The script uses it if it's already there, otherwise clones
 it there, no matter which folder you run it from. Every step is skipped when already done, so it's safe to
-run again. Set `DOTFILES_REPO=<user>/<repo>` to
-install from a fork.
+run again. Without a terminal (scripts), it stops after cloning: finish with `make setup`.
+Set `DOTFILES_REPO=<user>/<repo>` to install from a fork.
 
 <details>
 <summary>If the repo is private</summary>

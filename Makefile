@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := menu
-.PHONY: menu help install apply diff update ios xcode remote-access doctor
+.PHONY: menu help install setup apply diff update ios xcode remote-access doctor
 
 menu: ## Interactive menu (plain target list when there's no terminal)
 	@./scripts/menu.sh
@@ -7,8 +7,13 @@ menu: ## Interactive menu (plain target list when there's no terminal)
 help: ## Show available targets
 	@grep -E '^[a-z-]+:.*## ' $(MAKEFILE_LIST) | awk -F':.*## ' '{printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
 
-install: ## Bootstrap a fresh Mac (CLT, Homebrew, chezmoi) and apply dotfiles
+install: ## Bootstrap a fresh Mac (CLT, Homebrew, menu tools) and open the menu
 	./install.sh
+
+setup: ## First-time setup: 3 questions, then packages, dotfiles and GitHub login
+	chezmoi init --apply --source "$(CURDIR)"
+	@gh auth status --active --hostname github.com >/dev/null 2>&1 || \
+		gh auth login --hostname github.com --git-protocol https --web
 
 apply: ## Apply dotfiles to $HOME
 	chezmoi apply

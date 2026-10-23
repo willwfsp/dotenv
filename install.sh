@@ -1,5 +1,6 @@
 #!/bin/bash
-# Bootstrap a fresh Mac: Command Line Tools -> Homebrew -> chezmoi -> apply dotfiles.
+# Bootstrap a fresh Mac just far enough to run the interactive menu (`make`), then open it.
+# Everything else (packages, dotfiles, GitHub login) happens from the menu: "Set up this Mac".
 # Safe to re-run; every step is skipped when already done.
 #
 # Fresh Mac:  bash -c "$(curl -fsSL https://raw.githubusercontent.com/willwfsp/dotenv/main/install.sh)"
@@ -25,17 +26,18 @@ fi
 eval "$(/opt/homebrew/bin/brew shellenv)"
 brew update
 
-step "chezmoi"
-command -v chezmoi >/dev/null || brew install chezmoi
+step "Menu tools (chezmoi, gum, fzf)"
+for tool in chezmoi gum fzf; do
+  command -v "$tool" >/dev/null || brew install "$tool"
+done
 
-step "Dotfiles"
+step "Dotfiles repo"
 mkdir -p "$(dirname "$target_dir")"
 [ -f "$target_dir/.chezmoiroot" ] || git clone "https://github.com/$DOTFILES_REPO.git" "$target_dir"
-chezmoi init --apply --source "$target_dir"
 
-step "GitHub"
-# --active: a stale second account shouldn't count as "not logged in".
-gh auth status --active --hostname github.com >/dev/null 2>&1 || gh auth login --hostname github.com --git-protocol https --web
-
-step "Done"
-echo "Open a new terminal. For Xcode run: make -C \"$target_dir\" xcode"
+if [ -t 0 ] && [ -t 1 ]; then
+  exec make -C "$target_dir"
+else
+  step "Next"
+  echo "No terminal attached. Finish with: cd \"$target_dir\" && make setup"
+fi

@@ -39,8 +39,11 @@ count() {
   if [ "$1" -eq 0 ]; then printf '\033[32m✔ %s\033[0m' "$3"; else printf '\033[33m● %s %s\033[0m' "$1" "$2"; fi
 }
 
+# chezmoi writes its config during first-time setup ("Set up this Mac").
+is_set_up() { [ -f "$HOME/.config/chezmoi/chezmoi.toml" ]; }
+
 status_panel() {
-  local repo dirty sync pending outdated tools ios lines
+  local repo dirty sync pending outdated tools ios lines dotfiles
   repo="$(git branch --show-current) @ $(git rev-parse --short HEAD)"
   dirty=$(git status --porcelain | wc -l | tr -d ' ')
   sync=$(git rev-list --left-right --count '@{u}...HEAD' 2>/dev/null | awk '{
@@ -49,11 +52,13 @@ status_panel() {
   outdated=$(brew outdated --quiet 2>/dev/null | wc -l | tr -d ' ')
   tools=$(mise ls --current 2>/dev/null | awk '{printf "%s%s %s", sep, $1, $2; sep=" · "}')
   ios=$(chezmoi execute-template '{{ .ios }}' 2>/dev/null)
+  if is_set_up; then dotfiles=$(count "$pending" "pending" "applied")
+  else dotfiles=$'\033[33m○ not set up yet: choose "Set up this Mac"\033[0m'; fi
 
   lines=$(printf '%s\n' \
     "$(dim "Mac      ") macOS $(sw_vers -productVersion) · $(sysctl -n machdep.cpu.brand_string 2>/dev/null)" \
     "$(dim "Repo     ") $repo · ${sync:-no upstream} · $(count "$dirty" "uncommitted" "clean")" \
-    "$(dim "Dotfiles ") $(count "$pending" "pending" "applied")" \
+    "$(dim "Dotfiles ") $dotfiles" \
     "$(dim "Homebrew ") $(count "$outdated" "outdated" "up to date")" \
     "$(dim "mise     ") ${tools:-no tools}" \
     "$(dim "iOS      ") $([ "$ios" = true ] && echo "profile on" || echo "profile off")")
@@ -121,8 +126,13 @@ upgrade_all() {
 
 # One line per option: "label<TAB>description". "\n" breaks lines in the help panel.
 menu_items() {
-  local ios=$1 runs='\n\n\033[2mRuns:\033[0m '
+  local ios=$1 set_up=$2 runs='\n\n\033[2mRuns:\033[0m '
   local t=$'\t'
+  if [ "$set_up" != true ]; then
+    echo "Set up this Mac${t}First-time setup. Asks three questions (name, email, iOS profile), then installs the Homebrew packages, applies the dotfiles, installs mise tools, sets the macOS defaults and VS Code extensions, and logs into GitHub. Takes a while and asks for your password.${runs}make setup"
+    echo "Quit${t}Leave the menu. Esc works too. Run make again any time."
+    return
+  fi
   echo "Apply dotfiles${t}Write the repo's files into your home folder, then run the setup scripts whose inputs changed (packages, mise tools, macOS defaults, VS Code extensions). chezmoi asks before overwriting a file you edited by hand.${runs}chezmoi apply"
   echo "Preview changes${t}Show a diff of everything Apply would change, without touching anything.${runs}chezmoi diff"
   echo "Pull from GitHub and apply${t}Fetch the latest commits from github.com/willwfsp/dotenv and apply them. Use it after changing the repo on another Mac or on GitHub.${runs}chezmoi update"
@@ -141,7 +151,7 @@ menu_items() {
 
 # Prints the chosen label. fzf shows each option's description live in a side panel.
 pick_action() {
-  local items; items=$(menu_items "$1")
+  local items; items=$(menu_items "$1" "$2")
   if has fzf; then
     printf '%s\n' "$items" | fzf --delimiter=$'\t' --with-nth=1 --no-sort --no-info --cycle \
       --layout=reverse --height=16 --border=rounded --border-label=" What do you want to do? " \
@@ -179,7 +189,10 @@ while true; do
   ios=$(chezmoi execute-template '{{ .ios }}' 2>/dev/null)
   clear; banner; printf '%s\n\n' "$panel"
 
-  case "$(pick_action "$ios")" in
+  set_up=false; is_set_up && set_up=true
+
+  case "$(pick_action "$ios" "$set_up")" in
+    "Set up this Mac")                  run make -s setup ;;
     "Apply dotfiles")                   run chezmoi apply ;;
     "Preview changes")                  run chezmoi diff ;;
     "Pull from GitHub and apply")       run chezmoi update ;;
