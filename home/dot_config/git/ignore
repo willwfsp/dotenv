@@ -8,3 +8,5 @@
 .vscode/*.log
 .env.local
 .claude/settings.local.json
+# Local plans from the plan-work/build-work skills (synced to the issue tracker instead)
+.plans/
