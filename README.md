@@ -1,6 +1,9 @@
 # dotenv
 
-My macOS setup, managed by [chezmoi](https://chezmoi.io). One command takes a fresh Mac to a working machine.
+My macOS setup, managed by [chezmoi](https://chezmoi.io). One command takes a fresh Mac to a working machine,
+and `make` opens an interactive menu to manage it afterwards.
+
+![Interactive make menu](docs/demo.gif)
 
 ## Fresh Mac
 
@@ -48,8 +51,10 @@ gh repo clone willwfsp/dotenv ~/Developer/dotenv && make -C ~/Developer/dotenv i
 ## Day to day
 
 Run `make` for the interactive menu: a status panel (repo, pending dotfile changes, outdated packages,
-mise tools) plus every action below. It uses [gum](https://github.com/charmbracelet/gum) when installed,
-and prints the plain target list when there's no terminal (scripts, AI agents).
+mise tools) and every action below. A help panel explains the highlighted option and shows the command it
+runs. Type to filter, Enter to run, Esc to quit. It uses [fzf](https://github.com/junegunn/fzf) and
+[gum](https://github.com/charmbracelet/gum), and prints the plain target list when there's no terminal
+(scripts, AI agents).
 
 | Command | What it does |
 |---|---|
