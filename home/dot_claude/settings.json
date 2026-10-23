@@ -1,5 +1,5 @@
 {
-  "model": "opus",
+  "model": "opus[1m]",
   "enabledPlugins": {
     "warp@claude-code-warp": true
   },
@@ -11,11 +11,11 @@
       }
     }
   },
-  "tui": "fullscreen",
-  "theme": "dark",
   "modelSettings": {
     "claude-opus-5-5": {
       "effortLevel": "high"
     }
-  }
+  },
+  "tui": "fullscreen",
+  "theme": "dark"
 }

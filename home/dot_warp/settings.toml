@@ -1,11 +1,15 @@
 [appearance]
 
 [appearance.themes]
-theme = "dark"
+theme = "adeberry"
+system_theme = false
 
 [appearance.text]
 font_size = 13.0
 notebook_font_size = 14.0
+
+[appearance.vertical_tabs]
+enabled = true
 
 [global_hotkey]
 
@@ -66,9 +70,14 @@ custom_secret_regex_list = [
 cloud_conversation_storage_enabled = true
 
 [agents.warp_agent]
+is_any_ai_enabled = false
 
 [agents.warp_agent.input]
 nld_in_terminal_enabled = false
+
+[agents.warp_agent.other]
+show_agent_notifications = true
+show_conversation_history = true
 
 [agents.execution_profiles]
 
@@ -100,3 +109,19 @@ read_files = "agent_decides"
 run_agents = "always_ask"
 web_search_enabled = true
 write_to_pty = "always_ask"
+
+[agents.third_party]
+should_render_cli_agent_toolbar = true
+
+[general]
+default_session_mode = "agent"
+
+[code]
+
+[code.editor]
+show_code_review_button = true
+show_project_explorer = true
+show_global_search = true
+
+[warp_drive]
+enabled = true
