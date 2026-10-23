@@ -1,7 +1,11 @@
 #!/bin/bash
 # Curated macOS preferences. Re-runs whenever this file changes.
 # Some settings only take effect after logging out.
-set -euo pipefail
+# A failed setting is reported and the rest still apply.
+set -uo pipefail
+
+failed=0
+trap 'failed=$((failed + 1))' ERR
 
 # --- Keyboard ----------------------------------------------------------------
 defaults write NSGlobalDomain KeyRepeat -int 2                # fast key repeat
@@ -31,3 +35,6 @@ defaults write com.apple.screencapture location -string "$HOME/Pictures/Screensh
 defaults write com.apple.screencapture disable-shadow -bool true
 
 killall Dock Finder SystemUIServer 2>/dev/null || true
+
+[ "$failed" -eq 0 ] || echo "WARNING: $failed macOS setting(s) failed to apply, see above." >&2
+exit 0

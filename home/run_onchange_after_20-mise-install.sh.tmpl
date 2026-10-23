@@ -1,8 +1,10 @@
 #!/bin/bash
 # Re-runs whenever the global mise config changes.
 # config hash: {{ include "dot_config/mise/config.toml.tmpl" | sha256sum }} ios={{ .ios }}
-set -euo pipefail
+set -uo pipefail
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
-cd "$HOME"
-mise install --yes
+cd "$HOME" || exit 0
+# A failed tool shouldn't stop the rest of `chezmoi apply`. Fix it and re-run `mise install`.
+mise install --yes || echo "WARNING: some mise tools failed to install, see above." >&2
+exit 0

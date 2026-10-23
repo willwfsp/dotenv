@@ -1,10 +1,17 @@
 #!/bin/bash
 # Re-runs whenever .chezmoidata/vscode.yaml changes. Already-installed extensions are skipped.
-set -euo pipefail
+# A failed extension doesn't stop the others or the rest of `chezmoi apply`.
+set -uo pipefail
 
 code="/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code"
 [ -x "$code" ] || { echo "VS Code not installed yet, skipping extensions"; exit 0; }
 
+failed=()
 {{ range .vscode.extensions -}}
-"$code" --install-extension {{ . | quote }}
+"$code" --install-extension {{ . | quote }} || failed+=({{ . | quote }})
 {{ end -}}
+
+if [ ${#failed[@]} -gt 0 ]; then
+  echo "WARNING: these VS Code extensions failed to install, see above: ${failed[*]}" >&2
+fi
+exit 0

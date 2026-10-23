@@ -5,8 +5,6 @@ vscode:
     - bierner.markdown-preview-github-styles
     - eamodio.gitlens
     - esbenp.prettier-vscode
-    - github.copilot
-    - github.copilot-chat
     - github.vscode-github-actions
     - github.vscode-pull-request-github
     - jasonnutter.vscode-codeowners
