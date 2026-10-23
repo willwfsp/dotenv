@@ -24,6 +24,7 @@ packages:
       - orbstack # Docker engine + docker/orb CLIs
       - proxyman
       - sf-symbols
+      - tailscale-app # mesh VPN to reach the home server; CLI: tailscale
       - telegram
       - utm # full VMs (Home Assistant OS); CLI: utmctl
       - visual-studio-code
