@@ -31,5 +31,8 @@ The plan's front matter `branch:` holds the chosen name.
 6. Switch:
    - the branch exists locally: `git switch <branch>`;
    - it exists only on the remote: `git switch --track origin/<branch>`;
-   - otherwise: `git switch -c <branch> origin/<default>` (or `<default>` without a remote).
+   - otherwise: `git switch --no-track -c <branch> origin/<default>` (or `<default>` without a
+     remote). `--no-track` matters: without it the new branch tracks `origin/<default>`, so `git status`,
+     `pull` and `push` point at the default branch; the first `git push -u origin <branch>` sets the
+     right upstream.
 7. Never commit to the default branch and never push. Pushing and opening a PR are the user's call.

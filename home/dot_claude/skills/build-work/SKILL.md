@@ -16,5 +16,5 @@ argument-hint: "[plan key or issue number]"
    plan's path. The builder can't talk to the user, so everything it needs must be in the plan.
 4. **Relay** its report: tasks done with SHAs, verification results, and any blocker with its question.
    If it stopped on a blocker, ask the user that question and go back to step 2.
-5. **When the plan is done,** tell the user the branch is ready and suggest the next step (push and open
-   a PR). Don't push or open a PR unless the user asks.
+5. **When the plan is done,** tell the user the branch is ready and suggest `/create-pull-request`. Don't
+   push or open a PR unless the user asks.

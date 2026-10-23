@@ -16,6 +16,9 @@ Issue operations are written against this abstract interface. Each provider maps
 | `update-body` | number, body | none |
 | `comment` | number, body | none |
 | `close` | number | none (only when the user asks) |
+| `pr-find` | head branch | number and url of its open PR, or nothing |
+| `pr-create` | base, head, title, body | PR number and url |
+| `pr-update` | number, title, body | none |
 
 ## Resolving the provider
 1. The project's `CLAUDE.md` declares it with a line `Issue tracker: <provider>` (e.g. `github`, `none`).
