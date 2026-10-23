@@ -5,7 +5,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 typeset -U path
 path=("$HOME/.local/bin" $path)
 
-# OrbStack's docker/orb CLIs. Set here because OrbStack's own integration edits ~/.zprofile, which ZDOTDIR skips.
+# OrbStack's docker/orb CLIs. Set here, not by OrbStack's own .zprofile edit, which chezmoi drops on apply.
 [[ -d "$HOME/.orbstack/bin" ]] && path+=("$HOME/.orbstack/bin")
 
 # Shims make mise tools visible to non-interactive shells (scripts, agents, IDEs).

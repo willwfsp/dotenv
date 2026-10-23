@@ -16,6 +16,9 @@ setopt auto_cd auto_pushd pushd_ignore_dups interactive_comments no_beep
 fpath=("$ZDOTDIR/functions" $fpath)
 autoload -Uz $ZDOTDIR/functions/*(.N:t)
 
+# OrbStack's completions (docker, orb, kubectl), ahead of zsh's bundled ones to match its CLI versions.
+[[ -d ~/.orbstack/shell/completions/zsh ]] && fpath=(~/.orbstack/shell/completions/zsh $fpath)
+
 # --- Plugins (antidote) ------------------------------------------------------
 # Plugin list lives in .zsh_plugins.txt; antidote compiles it to a static file.
 zstyle ':antidote:bundle' use-friendly-names 'yes'
