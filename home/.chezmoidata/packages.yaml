@@ -13,6 +13,7 @@ packages:
       - mise
       - ripgrep
       - starship
+      - tea # Gitea CLI: issues and PRs on the homelab Gitea
     casks:
       - 1password
       - claude-code

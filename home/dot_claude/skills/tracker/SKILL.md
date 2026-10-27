@@ -23,7 +23,9 @@ Issue operations are written against this abstract interface. Each provider maps
 ## Resolving the provider
 1. The project's `CLAUDE.md` declares it with a line `Issue tracker: <provider>` (e.g. `github`, `none`).
    This wins.
-2. Otherwise infer from `git remote get-url origin`: a `github.com` host means `github`.
+2. Otherwise infer from `git remote get-url origin`: a `github.com` host means `github`; a host that
+   appears in `tea logins list` means `gitea`. A host that is neither but serves `/api/v1/version` with a
+   Gitea version is `gitea` too (the user still needs a `tea` login; see its Check).
 3. Otherwise, or if the provider has no file in `providers/`, use `none`: tell the user once, keep working
    without a tracker, and suggest adding the `Issue tracker:` line to the project's `CLAUDE.md`.
 
