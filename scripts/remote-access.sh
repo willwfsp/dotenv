@@ -15,6 +15,8 @@ PasswordAuthentication no
 KbdInteractiveAuthentication no
 PermitRootLogin no
 EOF
+# Host keys only exist after sshd's first start; create any missing ones so the config test can run.
+sudo ssh-keygen -A
 sudo sshd -t
 
 if ! sudo systemsetup -setremotelogin on 2>/dev/null; then

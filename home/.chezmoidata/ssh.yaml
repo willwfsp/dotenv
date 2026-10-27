@@ -2,4 +2,6 @@
 # Paste the public key from 1Password on the device you connect from. Leave out the trailing
 # comment (often an email address): just "ssh-ed25519 AAAA...".
 ssh:
-  authorized_keys: []
+  authorized_keys:
+    # iPhone, Termius biometric key (Secure Enclave, Face ID)
+    - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBrxEj6z2ZZ6pQTVE7AC70vCA+VZisr718mYn+cX7WGJWheZWzmrQ+/O3rUWvqJuRYxyFjqnyffugKoLU4pQJ1M="
