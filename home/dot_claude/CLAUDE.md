@@ -1,5 +1,11 @@
 # Global instructions
 
+## About me
+- Senior mobile (iOS) engineer, not a DevOps or infrastructure engineer. Before asking me to decide
+  an infrastructure question (servers, Docker, CI, networking, credentials, security), explain the
+  fundamentals first: what the piece does, why the choice matters, and what the market standard is.
+  Then give options with a recommendation.
+
 ## This machine
 - macOS on Apple Silicon. Dotfiles are managed by chezmoi from `~/Developer/dotenv`.
   To change a managed file, edit the source (`chezmoi edit <file>` or edit and `chezmoi re-add`),
