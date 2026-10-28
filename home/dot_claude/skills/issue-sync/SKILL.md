@@ -35,6 +35,11 @@ No local paths (`.plans/...` is private to this machine), no secrets, nothing fr
   context on top). Write the number into the plan's front matter and rename the file to
   `.plans/<issue>-<slug>.md`.
 - **Issue exists:** `get` the body, insert or replace the managed section, `update-body`.
+- **Every approval, then:** `comment` the full plan, so the issue keeps the reasoning behind the summary
+  (context, decisions with their why, verification, task details). The comment opens with
+  `Plan approved on <date>:` and holds everything below the plan's front matter except the `## Log`.
+  Same exclusions as the managed section: drop `.plans/` paths, secrets and `.env` values. A later
+  re-approval (changed tasks or decisions) posts a new comment; never edit an older one.
 
 ## During and after the build
 - After each completed task, or at least at the end of a build run: refresh the checklist with

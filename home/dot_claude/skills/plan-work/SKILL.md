@@ -16,7 +16,8 @@ in order and keep the user posted in one line per step.
 4. **Grill:** `grill`, checkpointing each answer into the plan.
 5. **Full plan:** `write-plan` (full plan).
 6. **Tasks:** `split-tasks`, ending with the user's approval (`status: ready`).
-7. **Housekeeping:** `issue-sync` (create or update the issue). Skip with tracker `none`.
+7. **Housekeeping:** `issue-sync` (create or update the issue's plan section, then comment the full
+   plan). Skip with tracker `none`.
 8. **Hand off.** Tell the user the plan path, the issue link, the task count, and that `/build-work`
    runs the builder. Don't start building unless the user asks.
 
