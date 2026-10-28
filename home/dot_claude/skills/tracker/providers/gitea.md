@@ -52,16 +52,16 @@ tea api -X PATCH '/repos/{owner}/{repo}/pulls/<n>' -d @"$payload" > /dev/null
 A failed request prints Gitea's error JSON (`message`) instead of the fields above; stop and show it.
 
 ## Links for the user
-The user reads replies mostly on the iPhone, where GitBoba (a Gitea client) opens `gitboba://` links.
-Whenever a reply mentions an issue, PR, commit or repo on Gitea, link it through GitBoba first, with the
-web URL as a fallback: `#12 ([GitBoba](gitboba://pull/<owner>/<repo>/12) · [web](<html_url>))`.
-- Routes (singular `issue` and `pull`): `gitboba://issue/<owner>/<repo>/<n>`,
-  `gitboba://pull/<owner>/<repo>/<n>`, `gitboba://commit/<owner>/<repo>/<sha>`,
-  `gitboba://repo/<owner>/<repo>`, `gitboba://notifications`.
-- No route for a comment: link the issue or PR in GitBoba, and the comment by its web URL.
-- These links are for chat replies only. Issue, PR and commit text keeps plain `#n` references and web
-  URLs, since other readers may not have GitBoba.
-- Source: https://gitboba.app/docs/ ("Deep Links").
+The user reads replies mostly on the iPhone, where GitBoba is the Gitea client. The Claude app only
+opens `http(s)` links, so a raw `gitboba://` link is not tappable there (tested 2026-10-27): never put
+one in a reply.
+- Now: link every issue, PR, commit or repo by its web URL (`html_url`), e.g.
+  `[#12](https://<host>/<owner>/<repo>/pulls/12)`.
+- Once the homelab redirector exists (willwfsp/homelab#8, tailnet HTTPS links that redirect to
+  `gitboba://`), link through it instead, with the web URL as a fallback. Its route mirrors GitBoba's:
+  singular `issue` and `pull`, plus `commit` and `repo` (https://gitboba.app/docs/, "Deep Links").
+- Comments have no GitBoba route: link them by their web URL.
+- Tracker text (issues, PRs, commits) always keeps plain `#n` references and web URLs.
 
 ## Squash settings
 Check with `tea api '/repos/{owner}/{repo}' | jq '{allow_squash_merge, default_merge_style}'`; the
