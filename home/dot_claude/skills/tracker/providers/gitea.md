@@ -51,6 +51,18 @@ tea api -X PATCH '/repos/{owner}/{repo}/pulls/<n>' -d @"$payload" > /dev/null
 
 A failed request prints Gitea's error JSON (`message`) instead of the fields above; stop and show it.
 
+## Links for the user
+The user reads replies mostly on the iPhone, where GitBoba (a Gitea client) opens `gitboba://` links.
+Whenever a reply mentions an issue, PR, commit or repo on Gitea, link it through GitBoba first, with the
+web URL as a fallback: `#12 ([GitBoba](gitboba://pull/<owner>/<repo>/12) · [web](<html_url>))`.
+- Routes (singular `issue` and `pull`): `gitboba://issue/<owner>/<repo>/<n>`,
+  `gitboba://pull/<owner>/<repo>/<n>`, `gitboba://commit/<owner>/<repo>/<sha>`,
+  `gitboba://repo/<owner>/<repo>`, `gitboba://notifications`.
+- No route for a comment: link the issue or PR in GitBoba, and the comment by its web URL.
+- These links are for chat replies only. Issue, PR and commit text keeps plain `#n` references and web
+  URLs, since other readers may not have GitBoba.
+- Source: https://gitboba.app/docs/ ("Deep Links").
+
 ## Squash settings
 Check with `tea api '/repos/{owner}/{repo}' | jq '{allow_squash_merge, default_merge_style}'`; the
 expected values are `true` and `"squash"`. Gitea builds the squash message from a template: the PR body
